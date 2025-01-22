@@ -10,37 +10,7 @@
     <link rel="stylesheet" href="./assets/css/style.css" media="screen">
   </head>
   <body>
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="index.html" class="navbar-brand">Test PHP — Pagination</a>
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="index.html" class="active">Accueil</a>
-            </li>
-            <li>
-              <a href="tasks.html">Liste des tâches</a>
-            </li>
-            <li>
-              <a href="records.html">Records</a>
-            </li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/ponsfrilus/TestPaginationPHP" target="_blank">GitHub repo</a></li>
-          </ul>
-
-        </div>
-      </div>
-    </div>
-
+    <?php include("./include/menu.php"); ?>
 
     <div class="container">
 
@@ -67,8 +37,8 @@
             <p>Le <a href="./assets/data/records.json">fichier JSON</a> qui vous est fourni recense tous les enregistrements du label Ninja Tune.</p>
 
             <h2>Tâches</h2>
-            <p>La page <a href="tasks.html">Liste de tâches</a> vous fournira une liste détaillée du travail à faire.<br />
-            <b>TL;DR</b> La page <a href="records.html">Records</a> doit présenter une liste des enregistrements du label Ninja Tune.</p>
+            <p>La page <a href="tasks.php">Liste de tâches</a> vous fournira une liste détaillée du travail à faire.<br />
+            <b>TL;DR</b> La page <a href="records.php">Records</a> doit présenter une liste des enregistrements du label Ninja Tune.</p>
 
             <h2>Moyens à disposition</h2>
             <p>
@@ -93,7 +63,7 @@
             <h2>Divers</h2>
             <p>
                Le thème "bootstrap" utilisé pour le site est <a href="http://bootswatch.com/cosmo/">COSMO</a> de <a href="http://bootswatch.com/">bootswatch.com</a>.<br />
-               Une page d'exemples (e.g. pagination et tables) est disponible <a href="bootswatch.html">ici</a>, mais l'essentiel est déjà sur la page <a href="records.html">Records</a>.<br />
+               Une page d'exemples (e.g. pagination et tables) est disponible <a href="bootswatch.html">ici</a>, mais l'essentiel est déjà sur la page <a href="records.php">Records</a>.<br />
                L'extraction des enregistrements a été fait à l'aide de l'API du site <a href="https://www.discogs.com">https://www.discogs.com</a>.
             </p>
 
@@ -116,14 +86,7 @@
       </div>
 
       <footer>
-        <div class="row">
-          <div class="col-lg-12">
-            <ul class="list-unstyled">
-              <li class="pull-right"><a href="#top">Back to top</a></li>
-              <li><a href="https://github.com/ponsfrilus/TestPaginationPHP">View source on GitHub</a> <small>(Pull requests welcome)</small></li>
-            </ul>
-          </div>
-        </div>
+        <?php include("./include/footer.php"); ?>
       </footer>
     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

@@ -12,37 +12,7 @@
 </head>
 
 <body>
-  <div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <a href="index.html" class="navbar-brand">Test PHP — Pagination</a>
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="navbar-collapse collapse" id="navbar-main">
-        <ul class="nav navbar-nav">
-          <li>
-            <a href="index.html">Accueil</a>
-          </li>
-          <li>
-            <a href="tasks.html">Liste des tâches</a>
-          </li>
-          <li>
-            <a href="records.html" class="active">Records</a>
-          </li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/ponsfrilus/TestPaginationPHP" target="_blank">GitHub repo</a></li>
-        </ul>
-
-      </div>
-    </div>
-  </div>
-
+  <?php include("./include/menu.php"); ?>
 
   <div class="container">
 
@@ -148,14 +118,7 @@
     </div>
 
     <footer>
-      <div class="row">
-        <div class="col-lg-12">
-          <ul class="list-unstyled">
-            <li class="pull-right"><a href="#top">Back to top</a></li>
-            <li><a href="https://github.com/ponsfrilus/TestPaginationPHP">View source on GitHub</a> <small>(Pull requests welcome)</small></li>
-          </ul>
-        </div>
-      </div>
+      <?php include("./include/footer.php"); ?>
     </footer>
   </div>
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
