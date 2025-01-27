@@ -51,12 +51,29 @@
         <div class="col-lg-12">
           <h2 id="tables">Tables</h2>
           <table class="table table-striped table-hover ">
+
+            <!-- construction header du tableau -->
             <thead>
               <tr>
                 <th>#</th>
-                <th>Column heading</th>
-                <th>Column heading</th>
-                <th>Column heading</th>
+                <?php
+
+                  # besoin de parcourir toutes les cles dans chaque element pour obtenir tous les noms de colonne possibles
+                  $colNames = [];
+                  foreach ($data as $row) {
+                    foreach (array_keys($row) as $key) {
+                      # si nom pas deja dans liste alors ajouter nom sinon passer a la suivante
+                      if (!in_array($key, $colNames)) {
+                        # ajoute cle au tableau
+                        $colNames[] = $key;
+                      }
+                    }
+                  }
+
+                  foreach ($colNames as $colName) {
+                    echo "<th>" . $colName . "</th>";
+                  }
+                ?>
               </tr>
             </thead>
             <tbody>
