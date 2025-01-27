@@ -57,7 +57,6 @@
               <tr>
                 <th>#</th>
                 <?php
-
                   # besoin de parcourir toutes les cles dans chaque element pour obtenir tous les noms de colonne possibles
                   $colNames = [];
                   foreach ($data as $row) {
@@ -76,49 +75,25 @@
                 ?>
               </tr>
             </thead>
+
+            <!-- construction body du tableau -->
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
-              <tr class="info">
-                <td>3</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
-              <tr class="success">
-                <td>4</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
-              <tr class="danger">
-                <td>5</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
-              <tr class="warning">
-                <td>6</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
-              <tr class="active">
-                <td>7</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
+              <?php
+                # besoin de compter nombre d'elements (nombre de lignes) puis parcourir chaque element pour creer ligne
+                $nbRows = count($data);
+
+                for ($i = 0; $i < $nbRows; $i++) {
+                  echo "<tr>";
+                  
+                  echo "<td>" . ($i + 1) . "</td>";
+
+                  foreach ($colNames as $colName) {
+                      echo "<td>" . $data[$i][$colName] . "</td>";
+                  }
+
+                  echo "</tr>";
+                }
+              ?>
             </tbody>
           </table>
         </div>
