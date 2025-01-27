@@ -26,6 +26,28 @@
           <img src="./assets/img/ninjatunesmonkey.jpg" width="250px" />
         </div>
 
+        <?php
+          # records.json -> array "releases" qui contient plusieurs elements / chaque element est une paire cle-valeur (element = ligne du tableau)
+          
+          # lecture du fichier et stocke sous forme de string
+          $json_content = file_get_contents("./assets/data/records.json");
+
+          # transformation de string a array (true pour transformer en associative array -> array avec cle assignee a chaque element)
+          $array_data = json_decode($json_content, true);
+          if ($array_data === null) {
+            die('Erreur lors du decodage du fichier JSON !');
+          }
+
+          $data = $array_data["releases"];
+
+          # affiche "cle : valeur" pour chaque ligne
+          #foreach ($data as $row) {
+          #  foreach ($row as $key => $value) {
+          #    echo $key . " : " . $value . "<br>";
+          #  }
+          #}
+        ?>
+
         <div class="col-lg-12">
           <h2 id="tables">Tables</h2>
           <table class="table table-striped table-hover ">
