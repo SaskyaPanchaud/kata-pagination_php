@@ -76,21 +76,41 @@
               </tr>
             </thead>
 
+            <?php
+              # donnes globales a la page
+
+              # calculer pour paginer donnees
+              $nbRowsPerPage = 10;
+              $nbRows = count($data);
+              $nbPages = ceil($nbRows / $nbRowsPerPage);
+
+              # obtenir numero de page en cours
+              $page_number = 1;
+              if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+                $page_number = (int) $_GET['page'];
+                if ($page_number < 1) {
+                  $page_number = 1;
+                } else if ($page_number > $nbPages) {
+                  $page_number = $nbPages;
+                }
+              } else {
+                $page_number = 1;
+              }
+            ?>
+
             <!-- construction body du tableau -->
             <tbody>
               <?php
-                # besoin de compter nombre d'elements (nombre de lignes) puis parcourir chaque element pour creer ligne
-                $nbRows = count($data);
+                $numFirstRow = ($page_number - 1) * $nbRowsPerPage;
+                $numLastRow = $numFirstRow + ($nbRowsPerPage - 1);
 
-                for ($i = 0; $i < $nbRows; $i++) {
+                # affichage des lignes
+                for ($i = $numFirstRow; $i < $numLastRow; $i++) {
                   echo "<tr>";
-                  
                   echo "<td>" . ($i + 1) . "</td>";
-
                   foreach ($colNames as $colName) {
                       echo "<td>" . $data[$i][$colName] . "</td>";
                   }
-
                   echo "</tr>";
                 }
               ?>
@@ -99,34 +119,33 @@
         </div>
 
         <div class="col-lg-12">
-          <h2 id="pagination">Pagination</h2>
-            <ul class="pagination">
-              <li class="disabled"><a href="#">&laquo;</a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">&raquo;</a></li>
-            </ul>
-            <br />
-            <ul class="pagination pagination-lg">
-              <li class="disabled"><a href="#">&laquo;</a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">&raquo;</a></li>
-            </ul>
-            <br />
-            <ul class="pagination pagination-sm">
-              <li class="disabled"><a href="#">&laquo;</a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">&raquo;</a></li>
-            </ul>
+          <ul class="pagination">
+            <?php
+
+              # bouton pour revenir en arriere
+              if ($page_number > 1) {
+                echo "<li><a href=\"?page=" . ($page_number - 1). "\">&laquo;</a></li>";
+              } else {
+                echo "<li class=\"disabled\"><a href=\"?page=" . $page_number . "\">&laquo;</a></li>";
+              }
+
+              # boutons pour toutes les pages
+              for ($i = 1; $i <= $nbPages; $i++) {
+                if ($page_number == $i) {
+                  echo "<li class=\"active\"><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
+                } else {
+                  echo "<li><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
+                }
+              }
+
+              # bouton pour aller en avant
+              if ($page_number < $nbPages) {
+                echo "<li><a href=\"?page=" . ($page_number + 1). "\">&raquo;</a></li>";
+              } else {
+                echo "<li class=\"disabled\"><a href=\"?page=" . $page_number . "\">&raquo;</a></li>";
+              }
+            ?>
+          </ul>
         </div>
       </div>
     </div>
