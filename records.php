@@ -1,3 +1,7 @@
+<?php
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +25,12 @@
         <div class="col-lg-8 col-md-7 col-sm-6">
           <h1>Test PHP - Pagination</h1>
           <p class="lead">Liste des enregistrements</p>
+          <!-- formulaire pour obtenir nombre de lignes par page entre par utilisateur -->
+          <form method="POST" action="records.php">
+            <label>Nombre de résultats à afficher par page :</label>
+            <?php echo "<input type=\"number\" id=\"nbResPerPage\" name=\"nbResultsPerPage\" value=" . $_SESSION["nbRowsPerPage"] . "/>"; ?>
+            <button type="submit">Appliquer</button>
+          </form>
         </div>
         <div class="col-lg-4 col-md-5 col-sm-6">
           <img src="./assets/img/ninjatunesmonkey.jpg" width="250px" />
@@ -79,10 +89,15 @@
             <?php
               # donnes globales a la page
 
-              # calculer pour paginer donnees
-              $nbRowsPerPage = 12;
+              # recuperer donnee utilisateur
               $nbRows = count($data);
-              $nbPages = ceil($nbRows / $nbRowsPerPage);
+              if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                $tempNbRowsPerPage = (int) $_POST['nbResultsPerPage'];
+                if (!($tempNbRowsPerPage < 1 || $tempNbRowsPerPage > $nbRows)) {
+                  $_SESSION["nbRowsPerPage"] = $tempNbRowsPerPage;
+                }
+              }
+              $nbPages = ceil($nbRows / $_SESSION["nbRowsPerPage"]);
 
               # obtenir numero de page en cours
               $page_number = 1;
@@ -101,8 +116,8 @@
             <!-- construction body du tableau -->
             <tbody>
               <?php
-                $numFirstRow = ($page_number - 1) * $nbRowsPerPage;
-                $numLastRow = $numFirstRow + $nbRowsPerPage <= $nbRows ? $numFirstRow + $nbRowsPerPage : $nbRows;
+                $numFirstRow = ($page_number - 1) * $_SESSION["nbRowsPerPage"];
+                $numLastRow = $numFirstRow + $_SESSION["nbRowsPerPage"] <= $nbRows ? $numFirstRow + $_SESSION["nbRowsPerPage"] : $nbRows;
 
                 # affichage des lignes
                 for ($i = $numFirstRow; $i < $numLastRow; $i++) {
@@ -124,14 +139,14 @@
 
               # bouton pour revenir en arriere
               if ($page_number > 1) {
-                echo "<li><a href=\"?page=" . ($page_number - 1). "\">&laquo;</a></li>";
+                echo "<li><a href=\"?page=" . ($page_number - 1) . "\">&laquo;</a></li>";
               } else {
                 echo "<li class=\"disabled\"><a href=\"?page=" . $page_number . "\">&laquo;</a></li>";
               }
 
               # boutons pour toutes les pages
               for ($i = 1; $i <= $nbPages; $i++) {
-                if ($page_number == $i) {
+                if ($page_number === $i) {
                   echo "<li class=\"active\"><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
                 } else {
                   echo "<li><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
