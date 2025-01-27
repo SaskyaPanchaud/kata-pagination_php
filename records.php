@@ -80,7 +80,7 @@
               # donnes globales a la page
 
               # calculer pour paginer donnees
-              $nbRowsPerPage = 10;
+              $nbRowsPerPage = 12;
               $nbRows = count($data);
               $nbPages = ceil($nbRows / $nbRowsPerPage);
 
@@ -102,7 +102,7 @@
             <tbody>
               <?php
                 $numFirstRow = ($page_number - 1) * $nbRowsPerPage;
-                $numLastRow = $numFirstRow + ($nbRowsPerPage - 1);
+                $numLastRow = $numFirstRow + $nbRowsPerPage <= $nbRows ? $numFirstRow + $nbRowsPerPage : $nbRows;
 
                 # affichage des lignes
                 for ($i = $numFirstRow; $i < $numLastRow; $i++) {
