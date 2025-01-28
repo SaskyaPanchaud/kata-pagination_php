@@ -16,6 +16,12 @@
   <link rel="stylesheet" href="./assets/css/bootstrap.min.css" media="screen">
   <link rel="stylesheet" href="./assets/css/custom.min.css" media="screen">
   <link rel="stylesheet" href="./assets/css/style.css" media="screen">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 </head>
 
 <body>
@@ -63,7 +69,7 @@
 
         <div class="col-lg-12">
           <h2 id="tables">Tables</h2>
-          <table class="table table-striped table-hover ">
+          <table class="table table-striped table-hover" id="table">
 
             <!-- construction header du tableau -->
             <thead>
@@ -198,7 +204,14 @@
       <?php include("./include/footer.php"); ?>
     </footer>
   </div>
-  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="./assets/js/bootstrap.min.js"></script>
+
+  <script>
+    $('#table').DataTable({
+      ordering: true,
+      info: false,
+      paging: false,
+      searching: false
+    });
+  </script>
 
 </html>
