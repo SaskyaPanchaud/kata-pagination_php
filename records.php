@@ -40,6 +40,16 @@
             <?php echo "<input type=\"number\" id=\"nbResPerPage\" name=\"nbResultsPerPage\" value=" . $_SESSION["nbRowsPerPage"] . "/>"; ?>
             <button type="submit">Appliquer</button>
           </form>
+          <!-- legende pour couleur des lignes -->
+          <p><br><b>Légendes (selon année) :</b></p>
+          <ul>
+            <li style="color:Grey;">pas de donnée</li>
+            <li style="color:Violet;">avant 1991</li>
+            <li style="color:Red;">entre 1991 et 2000</li>
+            <li style="color:Orange;">entre 2001 et 2010</li>
+            <li style="color:Green;">après 2010</li>
+          </ul>
+
         </div>
         <div class="col-lg-4 col-md-5 col-sm-6">
           <img src="./assets/img/ninjatunesmonkey.jpg" width="250px" />
@@ -126,6 +136,25 @@
               }
             ?>
 
+            <?php
+              # fonction utilisee pour colorer les lignes
+              function findColorDependingYear($year) {
+                if ($year === NULL) {
+                  return "";
+                }
+
+                if ($year > 2010) {
+                  return " class=\"success\"";
+                } else if ($year > 2000) {
+                  return " class=\"warning\"";
+                } else if ($year > 1990) {
+                  return " class=\"danger\"";
+                } else {
+                  return " class=\"info\"";
+                }
+              }
+            ?>
+
             <!-- construction body du tableau -->
             <tbody>
               <?php
@@ -134,7 +163,8 @@
 
                 # affichage des lignes
                 for ($i = $numFirstRow; $i < $numLastRow; $i++) {
-                  echo "<tr>";
+                  $color = findColorDependingYear($data[$i]["year"]);
+                  echo "<tr" . $color . ">";
                   echo "<td>" . ($i + 1) . "</td>";
                   foreach ($colNames as $colName) {
                       echo "<td>" . $data[$i][$colName] . "</td>";
