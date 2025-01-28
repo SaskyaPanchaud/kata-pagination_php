@@ -1,5 +1,8 @@
 <?php
   session_start();
+  if (!isset($_SESSION["nbRowsPerPage"])) {
+    $_SESSION["nbRowsPerPage"] = 12;
+  }
 ?>
 
 <!DOCTYPE html>
@@ -92,8 +95,12 @@
               # recuperer donnee utilisateur
               $nbRows = count($data);
               if ($_SERVER["REQUEST_METHOD"] === "POST") {
-                $tempNbRowsPerPage = (int) $_POST['nbResultsPerPage'];
-                if (!($tempNbRowsPerPage < 1 || $tempNbRowsPerPage > $nbRows)) {
+                $tempNbRowsPerPage = (int) round($_POST['nbResultsPerPage']);
+                if ($tempNbRowsPerPage < 1) {
+                  $_SESSION["nbRowsPerPage"] = 1;
+                } else if ($tempNbRowsPerPage > $nbRows) {
+                  $_SESSION["nbRowsPerPage"] = $nbRows;
+                } else {
                   $_SESSION["nbRowsPerPage"] = $tempNbRowsPerPage;
                 }
               }
@@ -102,7 +109,7 @@
               # obtenir numero de page en cours
               $page_number = 1;
               if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-                $page_number = (int) $_GET['page'];
+                $page_number = (int) round($_GET['page']);
                 if ($page_number < 1) {
                   $page_number = 1;
                 } else if ($page_number > $nbPages) {
@@ -145,12 +152,35 @@
               }
 
               # boutons pour toutes les pages
-              for ($i = 1; $i <= $nbPages; $i++) {
-                if ($page_number === $i) {
-                  echo "<li class=\"active\"><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
-                } else {
-                  echo "<li><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
+              $nbPagesMax = 6;
+              if ($nbPages < $nbPagesMax) {
+                for ($i = 1; $i <= $nbPages; $i++) {
+                  if ($page_number === $i) {
+                    echo "<li class=\"active\"><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
+                  } else {
+                    echo "<li><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
+                  }
                 }
+              } else {
+
+                $ratio = 10;
+                $nbPagesAdapted = (int) round($nbPages / $ratio);
+                $firstPage = 1;
+                $lastPage = $nbPages;
+
+                for ($i = 1; $i <= $nbPages; $i++) {
+                  if (($i <= $nbPagesAdapted) || ($i > ($nbPages - $nbPagesAdapted))) {
+                    $pageActive = ($page_number === $i) ? " class=\"active\"" : "";
+                    echo "<li" . $pageActive . "><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
+                  } else if ($page_number === $i) {
+                    echo "<li class=\"active\"><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
+                  } else if ($i === ($nbPagesAdapted + 1) && !($page_number <= $nbPagesAdapted)) {
+                    echo "<li><a href=\"?page=" . ((int) round(($page_number - $firstPage) / 2)) . "\">...</a></li>";
+                  } else if ($i === (int) ($nbPages - $nbPagesAdapted) && !($page_number > ($nbPages - $nbPagesAdapted))) {
+                    echo "<li><a href=\"?page=" . ((int) (round(($lastPage - $page_number) / 2) + $page_number)) . "\">...</a></li>";
+                  }
+                }
+                
               }
 
               # bouton pour aller en avant
