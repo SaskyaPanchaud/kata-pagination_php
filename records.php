@@ -163,13 +163,12 @@
                 }
               } else {
 
-                $ratio = 10;
-                $nbPagesAdapted = (int) round($nbPages / $ratio);
+                $nbPagesAdapted = 2;
                 $firstPage = 1;
                 $lastPage = $nbPages;
 
                 for ($i = 1; $i <= $nbPages; $i++) {
-                  if (($i <= $nbPagesAdapted) || ($i > ($nbPages - $nbPagesAdapted))) {
+                  if (($i <= $nbPagesAdapted) || ($i > ($nbPages - $nbPagesAdapted)) || ($i === ($page_number - 1)) || ($i === ($page_number + 1))) {
                     $pageActive = ($page_number === $i) ? " class=\"active\"" : "";
                     echo "<li" . $pageActive . "><a href=\"?page=" . $i . "\">" . $i . "</a></li>";
                   } else if ($page_number === $i) {
@@ -180,7 +179,7 @@
                     echo "<li><a href=\"?page=" . ((int) (round(($lastPage - $page_number) / 2) + $page_number)) . "\">...</a></li>";
                   }
                 }
-                
+
               }
 
               # bouton pour aller en avant
